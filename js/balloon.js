@@ -12,13 +12,13 @@ const incrementStylePx = (str, incr) => {
 }
 
 const audio = {
-  spawn: new Audio('hello.wav'),
-  inflate: new Audio('inflate.wav'),
-  pop: new Audio('pop.wav')
+  spawn: new Audio('/assets/hello.wav'),
+  inflate: new Audio('/assets/inflate.wav'),
+  pop: new Audio('/assets/pop.wav')
 }
 
 let specialKeyPressed = false;
-document.addEventListener('keydown', e => specialKeyPressed = e.keyCode == 91);
+document.addEventListener('keydown', e => specialKeyPressed = e.keyCode == 69);
 document.addEventListener('keyup', e => specialKeyPressed = false);
 
 /**
