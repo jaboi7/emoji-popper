@@ -17,9 +17,16 @@ const audio = {
   pop: new Audio('/assets/pop.wav')
 }
 
-let specialKeyPressed = false;
-document.addEventListener('keydown', e => specialKeyPressed = e.keyCode == 69);
-document.addEventListener('keyup', e => specialKeyPressed = false);
+let eggKeyPressed = false;
+let shotgunKeyPressed = false;
+document.addEventListener('keydown', e => {
+  eggKeyPressed = e.keyCode == 69;
+  shotgunKeyPressed = e.shiftKey;
+});
+document.addEventListener('keyup', e => {
+  eggKeyPressed = false;
+  shotgunKeyPressed = false;
+});
 
 /**
  * Represents a single balloon on screen.
@@ -78,7 +85,7 @@ class Balloon {
 
   attachToDOM() {
     let e = this.element = document.createElement('span');
-    e.innerHTML = specialKeyPressed ? '🥚' : '🎈';
+    e.innerHTML = eggKeyPressed ? '🥚' : '🎈';
     e.style.fontSize = `${this.getInitialSize()}px`;
     e.classList.add('balloon');
     e.onclick = () => this.expand()
@@ -92,7 +99,14 @@ class Balloon {
    */
   expand() {
     let { style } = this.element;
-    style.fontSize = incrementStylePx(style.fontSize, range(8, 16));
+    style.fontSize = incrementStylePx(
+      style.fontSize,
+      shotgunKeyPressed ? range(90, 120) :
+        range(8, 16)
+    );
+    if (shotgunKeyPressed) {
+      this.expandCount = this.popTrigger
+    }
     if (this.expandCount++ == this.popTrigger) {
       this.pop();
     } else {
