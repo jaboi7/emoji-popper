@@ -12,9 +12,9 @@ const incrementStylePx = (str, incr) => {
 }
 
 const audio = {
-  spawn: new Audio('/assets/hello.wav'),
-  inflate: new Audio('/assets/inflate.wav'),
-  pop: new Audio('/assets/pop.wav')
+  spawn: new Audio('./assets/hello.wav'),
+  inflate: new Audio('./assets/inflate.wav'),
+  pop: new Audio('./assets/pop.wav')
 }
 
 let eggKeyPressed = false;
