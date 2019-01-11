@@ -28,6 +28,14 @@ document.addEventListener('keyup', e => {
   shotgunKeyPressed = false;
 });
 
+let gameOver = false;
+let score = 0;
+
+/**
+ * @type {Balloon[]}
+ */
+let allBalloons = [];
+
 /**
  * Represents a single balloon on screen.
  * @author Johan Svensson
@@ -37,6 +45,7 @@ class Balloon {
    * Starts spawning balloons at random locations.
    */
   static initSpawnLoop() {
+    score = 0;
     setTimeout(() => Balloon.scheduleSpawn(), 1000);
   }
 
@@ -45,6 +54,9 @@ class Balloon {
   }
 
   static scheduleSpawn() {
+    if (gameOver) {
+      return;
+    }
     setTimeout(() => {
       let padding = 80;
 
@@ -69,6 +81,25 @@ class Balloon {
     let { style } = balloon.element;
     style.left = `${x}px`;
     style.top = `${y}px`;
+
+    allBalloons.push(balloon);
+  }
+
+  /**
+   * Pops all balloons.
+   */
+  static popAll() {
+    allBalloons.forEach((e, i) => {
+      let delay = i * (Math.max(30, 750 / allBalloons.length));
+      setTimeout(() => e.pop(), delay);
+
+      if (i == allBalloons.length - 1) {
+        //  Schedule show game over
+        setTimeout(() => {
+          showGameOver(score);
+        }, delay + 750);
+      }
+    })
   }
 
   constructor() {
@@ -109,6 +140,7 @@ class Balloon {
     }
     if (this.expandCount++ == this.popTrigger) {
       this.pop();
+      score ++;
     } else {
       audio.inflate.play();
     }
@@ -122,12 +154,37 @@ class Balloon {
    * Ascends to some new location.
    */
   ascend() {
+    if (gameOver) {
+      return;
+    }
+
     let { style } = this.element;
 
     style.top = incrementStylePx(style.top, range(20, 40) * -1);
     style.left = incrementStylePx(style.left, range(20, 40) * (this.shiftLeft ? -1 : 1));
 
+    this.checkReachedTop();
+
     this.shiftLeft = !this.shiftLeft;
+  }
+
+  /**
+   * Checks whether the balloon has reached the top of the screen.
+   */
+  checkReachedTop() {
+    let bounds = this.element.getBoundingClientRect();
+
+    if (bounds.top <= 0) {
+      this.onGameOver();
+    }
+  }
+
+  onGameOver() {
+    gameOver = true;
+
+    setTimeout(() => {
+      Balloon.popAll();
+    }, 750);
   }
 
   /**
@@ -144,6 +201,11 @@ class Balloon {
     element.style.pointerEvents = 'none';
 
     setInterval(() => this.disappear(), 750);
+
+    let indexOf = allBalloons.indexOf(this);
+    if (indexOf != -1) {
+      allBalloons.splice(indexOf);
+    }
 
     audio.pop.play();
   }

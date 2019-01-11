@@ -32,3 +32,54 @@ body {
   /* Center-ish */
   transform: translate(-50%, -50%);
 }
+
+#game-over {
+  height: 85vh;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+#game-over[disabled] {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+#game-over .field {
+
+}
+
+#game-over .field input {
+  appearance: none;
+  padding: 8px 12px;
+  border-radius: 3px;
+  border: 1px solid #cacaca;
+  font-size: 1rem;
+  outline: none !important;
+  color: #616161;
+}
+
+#game-over .field input:focus {
+  box-shadow: 0 0 6px blue;
+}
+
+button {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  margin-top: 0.75rem;
+}
+
+#score-submit-cancel {
+  display: inline-block;
+  margin-top: 24px;
+  color: #616161;
+}
+
+#score-submit-cancel:hover {
+  opacity: 0.75;
+  cursor: pointer;
+}

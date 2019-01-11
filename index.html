@@ -12,10 +12,41 @@
 <body>
   <div id="app">
     <button id="start">START 🎈🎈</button>
+    <p id="opc"></p>
+
+    <div id="game-over" style="display:none">
+      <h2>Congrats, you blew up <span class="score">10</span> balloons.</h2>
+
+      <form class="score-submit">
+        <h3>Enter your name, master popper!</h3>
+        <div class="field">
+          <input type="text" id="input-score-holder" />
+        </div>
+
+        <div>
+          <button id="score-submit-action" type="submit">Submit score</button>
+        </div>
+        <div>
+          <a id="score-submit-cancel">no thnx, keep playing</a>
+        </div>
+      </form>
+
+      <ul class="scoreboard">
+
+      </ul>
+    </div>
   </div>
   <script src="js/utils.js"></script>
   <script src="js/balloon.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/gameover.js"></script>
+  <script src="js/highscore/ScoreEntry.js"></script>
+  <script src="js/highscore/service.js"></script>
+  <script src="js/views/online_player_counter.js"></script>
+  <script src="js/socket/constants.js"></script>
+  <script src="js/socket/init.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js"></script>
 
   <a href="https://github.com/jojjesv/emoji-popper" target="_blank" class="github-corner" aria-label="View source on Github"><svg
       width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: fixed; top: 0; border: 0; right: 0;"
